@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
@@ -37,6 +38,7 @@ public class RobotContainer {
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  Joystick armJoystick = new Joystick(0);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -121,3 +123,4 @@ public class RobotContainer {
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
   }
 }
+//ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here 

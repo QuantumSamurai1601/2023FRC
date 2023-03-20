@@ -20,6 +20,7 @@ import com.revrobotics.AbsoluteEncoder;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
+
 public class MAXSwerveModule {
 
   private WPI_TalonFX mDriveMotor;
@@ -33,6 +34,9 @@ public class MAXSwerveModule {
 
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
+
+
+
   
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
@@ -51,6 +55,7 @@ public class MAXSwerveModule {
     mDriveMotor.configFactoryDefault(); 
 
     // Setup encoders and PID controllers for the driving and turning SPARKS MAX.
+    // Config the Talon's integrated encoder
     mDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_turningEncoder = m_turningSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
     m_turningPIDController = m_turningSparkMax.getPIDController();
@@ -119,10 +124,29 @@ public class MAXSwerveModule {
    *
    * @return The current state of the module.
    */
+
+   //Conversion 
+
+   // Falcon to RMP
+   public static double falconToRPM(double velocityCounts, double gearRatio) {
+    double motorRPM = velocityCounts * (600.0 / 2048.0);        
+    double mechRPM = motorRPM / gearRatio;
+    return mechRPM;
+}
+  
+  // Falcon To MPS
+   public static double falconToMPS(double velocitycounts, double circumference, double gearRatio){
+    double wheelRPM = falconToRPM(velocitycounts, gearRatio);
+    double wheelMPS = (wheelRPM * circumference) / 60;
+    return wheelMPS;
+}
+
   public SwerveModuleState getState() {
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
-    return new SwerveModuleState(this.mDriveMotor.getSelectedSensorVelocity(), 
+    return new SwerveModuleState(falconToMPS(this.mDriveMotor.getSelectedSensorVelocity(), 
+    Constants.ModuleConstants.kWheelDiameterMeters * Math.PI,
+    Constants.ModuleConstants.kDrivingMotorReduction), 
     new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
   }
 
@@ -166,5 +190,6 @@ public class MAXSwerveModule {
    public void resetMotor() {
     mDriveMotor.setSelectedSensorPosition(0);
   } 
+
 
 }
