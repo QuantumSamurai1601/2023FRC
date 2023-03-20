@@ -14,7 +14,6 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.SparkMaxPIDController;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.AbsoluteEncoder;
 
@@ -26,10 +25,11 @@ public class MAXSwerveModule {
   private WPI_TalonFX mDriveMotor;
   private final CANSparkMax m_turningSparkMax;
 
+
+
   private final AbsoluteEncoder m_turningEncoder;
   
   private final SparkMaxPIDController m_turningPIDController;
-  public TalonFXConfiguration swerveDriveFXConfig;
 
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
@@ -43,7 +43,6 @@ public class MAXSwerveModule {
   public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
     mDriveMotor = new WPI_TalonFX(drivingCANId); 
     m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
-    swerveDriveFXConfig = new TalonFXConfiguration();
 
 
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
@@ -87,10 +86,10 @@ public class MAXSwerveModule {
     // may need to tune them for your own robot!
   
  
-    mDriveMotor.config_kP(0, Constants.ModuleConstants.kDrivingP);
-    mDriveMotor.config_kI(0, Constants.ModuleConstants.kDrivingI);
-    mDriveMotor.config_kD(0, Constants.ModuleConstants.kDrivingD);
-    mDriveMotor.config_kF(0, Constants.ModuleConstants.kDrivingFF); 
+    mDriveMotor.config_kP(drivingCANId, Constants.ModuleConstants.kDrivingP);
+    mDriveMotor.config_kI(drivingCANId, Constants.ModuleConstants.kDrivingI);
+    mDriveMotor.config_kD(drivingCANId, Constants.ModuleConstants.kDrivingD);
+    mDriveMotor.config_kF(drivingCANId, Constants.ModuleConstants.kDrivingFF); 
     mDriveMotor.configOpenloopRamp(0.25);
     mDriveMotor.configClosedloopRamp(0.0);
 
