@@ -51,12 +51,13 @@ public final class Constants {
     public static final double kBackLeftChassisAngularOffset = Math.PI;
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
-    // SPARK MAX CAN IDs
+    // Driving CAN IDs
     public static final int kFrontLeftDrivingCanId = 10;
     public static final int kRearLeftDrivingCanId = 7;
     public static final int kFrontRightDrivingCanId = 9;
     public static final int kRearRightDrivingCanId = 8;
 
+    //Turning CAN IDs 
     public static final int kFrontLeftTurningCanId = 4;
     public static final int kRearLeftTurningCanId = 5;
     public static final int kFrontRightTurningCanId = 3;
@@ -76,7 +77,7 @@ public final class Constants {
     public static final boolean kTurningEncoderInverted = true;
 
     // Calculations required for driving motor conversion factors and feed forward
-    public static final double kDrivingMotorFreeSpeedRps = FalconConstants.kFreeSpeedRpm / 60;
+    public static final double kDrivingMotorFreeSpeedRps = DriveMotorRPM.kFreeSpeedRpm / 60;
     public static final double kWheelDiameterMeters = 0.0762;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the bevel pinion
@@ -95,9 +96,9 @@ public final class Constants {
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
     public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-    public static final double kDrivingP = 0.07;
+    public static final double kDrivingP = 0.04;
     public static final double kDrivingI = 0;
-    public static final double kDrivingD = 0.60;
+    public static final double kDrivingD = 0;
     public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
     public static final double kDrivingMinOutput = -1;
     public static final double kDrivingMaxOutput = 1;
@@ -136,7 +137,7 @@ public final class Constants {
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
 
-  public static final class FalconConstants {
+  public static final class DriveMotorRPM {
     public static final double kFreeSpeedRpm = 5676;
   }
 }

@@ -23,8 +23,6 @@ public class MAXSwerveModule {
   private final CANSparkMax mDrive;
   private final CANSparkMax mTurn;
 
-
-
   private final AbsoluteEncoder m_turningEncoder;
   private final RelativeEncoder m_drivingEncoder;
   
@@ -64,8 +62,6 @@ public class MAXSwerveModule {
 
     m_turningPIDController = mTurn.getPIDController();
     m_turningPIDController.setFeedbackDevice(m_turningEncoder);
-
-
 
 
     // Apply position and velocity conversion factors for the driving encoder. The
@@ -108,6 +104,7 @@ public class MAXSwerveModule {
     m_turningPIDController.setFF(ModuleConstants.kTurningFF);
     m_turningPIDController.setOutputRange(ModuleConstants.kTurningMinOutput,
         ModuleConstants.kTurningMaxOutput);
+
 
     mTurn.setIdleMode(ModuleConstants.kTurningMotorIdleMode);
     mTurn.setSmartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
@@ -182,6 +179,8 @@ public class MAXSwerveModule {
         m_drivingEncoder.setPosition(0);
 
   } 
+
+  
 
 
 }
