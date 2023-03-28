@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -27,7 +28,7 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 4.8;
+    public static final double kMaxSpeedMetersPerSecond = 2.5;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
     public static final double kDirectionSlewRate = 1.2; // radians per second
@@ -81,7 +82,9 @@ public final class Constants {
     public static final double kWheelDiameterMeters = 0.0762;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the bevel pinion
+    // *GEAR RATIO* :
     public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
+    
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / kDrivingMotorReduction;
 
@@ -123,12 +126,21 @@ public final class Constants {
 
   public static final class ArmConstants {
 
-    public static final double kArmOffsetRads = 0.0; 
+    public static final double kArmOffsetRads = 0.0;
+    public static double kSVolts;
+    public static double kGVolts;
+    public static double kVVoltSecondPerRad;
+    public static double kAVoltSecondSquaredPerRad;
+    public static double kP;
+    public static double kMaxVelocityRadPerSecond;
+    public static double kMaxAccelerationRadPerSecSquared;
+    public static State kArmOffsetRadsads; 
 
   }
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kArmControllerPort = 1; 
     public static final double kDriveDeadband = 0.05;
   }
 

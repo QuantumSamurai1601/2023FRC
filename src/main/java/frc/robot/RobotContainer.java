@@ -13,16 +13,19 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Arm.ArmSubsystem;
+import frc.robot.subsystems.Arm.Move;
+import frc.robot.subsystems.Drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
@@ -34,11 +37,13 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    private final ArmSubsystem m_robotArm = new ArmSubsystem(); 
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  // Joystick armJoystick = new Joystick(0);
+  // The Arm's joystick controller
+  CommandJoystick m_armController = new CommandJoystick(OIConstants.kArmControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -46,6 +51,30 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    // Move the arm to 2 radians above horizontal when the 'A' button is pressed.
+    m_armController
+    .button(3)
+    .onTrue(
+        Commands.runOnce(
+              () -> {
+                m_robotArm.setGoal(2);
+                m_robotArm.enable();
+            },
+            m_robotArm));
+
+    // Move the arm to neutral position when the 'B' button is pressed.
+    m_armController
+    .button(2)
+    .onTrue(
+        Commands.runOnce(
+            () -> {
+              m_robotArm.setGoal(Constants.ArmConstants.kArmOffsetRads);
+              m_robotArm.enable();
+            },
+            m_robotArm));
+
+
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -58,6 +87,10 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
+
+      
+    m_robotArm.setDefaultCommand(
+      new Move(m_robotArm, () -> m_armController.getY()));
   }
 
   /**
@@ -75,6 +108,9 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
   }
+
+    /* ARM */
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
