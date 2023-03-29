@@ -44,10 +44,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, TrapezoidProfile.State setpoint) {
-        // Calculate the feedforward from the sepoint
+        // Calculate the feedforward from the setpoint
         double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
         // Add the feedforward to the PID output to get the motor output
-        mArm.setVoltage((mArm.getSelectedSensorPosition(), setpoint) + feedforward);
+        mArm.setVoltage(output + feedforward);
     }
 
 
