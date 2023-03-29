@@ -67,7 +67,7 @@ public class RobotContainer {
 
       
     m_robotArm.setDefaultCommand(
-      new moveArm(m_robotArm, () -> m_armController.getY()*0.5)
+      new moveArm(m_robotArm, () -> m_armController.getY())
     );
      
     
