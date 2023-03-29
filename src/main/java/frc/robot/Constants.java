@@ -136,12 +136,16 @@ public final class Constants {
   public static final class ArmConstants {
 
     public static final double kArmOffsetRads = 0.0;
+    public static final double Ks = 0.041;
+    public static final double Kg = 0.14;
+    public static final double Kv = 6.909;
+    public static final double Ka = 17;
     public static double kGVolts = 0.27;
-    public static double kVVoltSecondPerRad = 7.18;
+    public static double kVVoltSecondPerRad = 6.09;
     public static double kAVoltSecondSquaredPerRad = 0.01;
-    public static double kP = 0.0;
-    public static double kMaxVelocityRadPerSecond;
-    public static double kMaxAccelerationRadPerSecSquared;
+    public static double kP = 5.2784;
+    public static double kMaxVelocityRadPerSecond = 0.75;
+    public static double kMaxAccelerationRadPerSecSquared = 0.25;
     public static State kArmOffsetRadsads; 
 
   }
