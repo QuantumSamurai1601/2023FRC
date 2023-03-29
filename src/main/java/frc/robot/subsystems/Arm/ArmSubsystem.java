@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
 
-    private final WPI_TalonSRX armMotor;
+    private final WPI_TalonFX armMotor;
     private final PIDController mArmPidController; 
     private final double kP = 0.1;
     private final double kI = 0.0;
