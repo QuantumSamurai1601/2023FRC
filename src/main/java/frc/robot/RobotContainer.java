@@ -66,6 +66,14 @@ public class RobotContainer {
             m_robotDrive));
 
       
+    m_robotArm.setDefaultCommand(
+      new moveArm(m_robotArm, () -> m_armController.getY()*0.5)
+    );
+     
+    
+    
+
+      
   }
 
   /**
