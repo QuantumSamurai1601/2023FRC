@@ -15,8 +15,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     public static final WPI_TalonFX mArm = new WPI_TalonFX(11);
     private final ArmFeedforward m_feedforward = new ArmFeedforward(
-        ArmConstants.kGVolts,
-        ArmConstants.kVVoltSecondPerRad, ArmConstants.kAVoltSecondSquaredPerRad);
+    ArmConstants.Ks,
+    ArmConstants.Kg,
+    ArmConstants.Kv,
+    ArmConstants.Ka);
 
 
     public ArmSubsystem() {
@@ -27,7 +29,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
             new ProfiledPIDController(
                 ArmConstants.kP,
                 0,
-                0,
+                3.6271,
                 new TrapezoidProfile.Constraints(
                     ArmConstants.kMaxVelocityRadPerSecond,
                     ArmConstants.kMaxAccelerationRadPerSecSquared)),
@@ -45,7 +47,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         // Calculate the feedforward from the sepoint
         double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
         // Add the feedforward to the PID output to get the motor output
-        mArm.setVoltage(output + feedforward);
+        mArm.setVoltage((mArm.getSelectedSensorPosition(), setpoint) + feedforward);
     }
 
 
