@@ -23,7 +23,8 @@ public class Move extends CommandBase {
 
     @Override
     public void execute() {
-      m_ArmSubsystem.setGoal(m_AxisMove.getAsDouble());
+      // m_ArmSubsystem.setGoal(m_AxisMove.getAsDouble());
+      ArmSubsystem.mArm.set(m_AxisMove.getAsDouble());
     }
 
     

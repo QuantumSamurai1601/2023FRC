@@ -13,9 +13,9 @@ import frc.robot.Constants.ModuleConstants;
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
 
-    public static final WPI_TalonFX mArm = new WPI_TalonFX(0);
+    public static final WPI_TalonFX mArm = new WPI_TalonFX(11);
     private final ArmFeedforward m_feedforward = new ArmFeedforward(
-        ArmConstants.kSVolts, ArmConstants.kGVolts,
+        ArmConstants.kGVolts,
         ArmConstants.kVVoltSecondPerRad, ArmConstants.kAVoltSecondSquaredPerRad);
 
 
@@ -39,10 +39,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         // Start Arm in a neutral position:
         setGoal(ArmConstants.kArmOffsetRadsads);
     }
-
-
-
-
 
     @Override
     protected void useOutput(double output, TrapezoidProfile.State setpoint) {
