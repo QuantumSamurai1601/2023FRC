@@ -13,21 +13,19 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.Commands.ToggleJaw;
+//import frc.robot.Commands.ToggleJaw;
 import frc.robot.Commands.moveArm;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
-import frc.robot.subsystems.Arm.Jaw;
+//import frc.robot.subsystems.Arm.Jaw;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
@@ -41,9 +39,10 @@ public class RobotContainer {
   // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final ArmSubsystem m_robotArm = new ArmSubsystem(); 
-    private final Jaw jaw = new Jaw(); 
-    private final ToggleJaw toggleJaw;
+    //private final Jaw jaw = new Jaw(); 
+    //private final ToggleJaw toggleJaw;
 
+  //toggleJaw = new ToggleJaw(jaw, m_armController);
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   // The Arm's joystick controller
@@ -67,7 +66,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
+                false, true),
             m_robotDrive));
 
       
@@ -75,7 +74,6 @@ public class RobotContainer {
       new moveArm(m_robotArm, () -> m_armController.getLeftY())
     );
 
-    toggleJaw = new ToggleJaw(jaw, m_armController);
      
     
     
@@ -98,7 +96,7 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-    new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
+    // new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
 
 
 

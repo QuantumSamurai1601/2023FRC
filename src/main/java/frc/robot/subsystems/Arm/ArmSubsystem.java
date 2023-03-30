@@ -40,7 +40,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
         // Start Arm in a neutral position:
         //setGoal(ArmConstants.kArmOffsetRadsads);
-        enable();
+        disable();
     }
 
     @Override

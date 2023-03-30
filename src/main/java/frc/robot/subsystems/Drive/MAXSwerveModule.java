@@ -45,6 +45,10 @@ public class MAXSwerveModule {
     mDrive = new CANSparkMax(drivingCANId, MotorType.kBrushless);
     mTurn = new CANSparkMax(turningCANId, MotorType.kBrushless);
 
+    mDrive.setInverted(true);
+    mTurn.setInverted(true);
+
+
 
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
     // them. This is useful in case a SPARK MAX is swapped out.

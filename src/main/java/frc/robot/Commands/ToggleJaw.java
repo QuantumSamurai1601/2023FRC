@@ -1,4 +1,4 @@
-package frc.robot.Commands;
+/*package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -34,11 +34,11 @@ public class ToggleJaw extends CommandBase{
     }
 
     @Override
-    public void end(boolean interrupted) {}
-
-    @Override
-    public boolean isFinished() {
-        return false; 
+    public void end(boolean interrupted) {
+        
     }
+
+
     
 }
+*/
