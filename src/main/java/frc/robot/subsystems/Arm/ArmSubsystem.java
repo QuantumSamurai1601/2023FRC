@@ -13,7 +13,7 @@ import frc.robot.Constants.ModuleConstants;
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
 
-    public static final WPI_TalonFX mArm = new WPI_TalonFX(11);
+    public static final WPI_TalonFX mArmMotor = new WPI_TalonFX(11);
     private final ArmFeedforward m_feedforward = new ArmFeedforward(
     ArmConstants.Ks,
     ArmConstants.Kg,
@@ -24,22 +24,23 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public ArmSubsystem() {
 
 
-        // Creates motion controller - TODO: TUNE
+        // Creates motion controller 
         super(
             new ProfiledPIDController(
                 ArmConstants.kP,
                 0,
-                3.6271,
+                0,
                 new TrapezoidProfile.Constraints(
                     ArmConstants.kMaxVelocityRadPerSecond,
                     ArmConstants.kMaxAccelerationRadPerSecSquared)),
             0);
 
         // Sets up Encoder
-        mArm.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        mArmMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
         // Start Arm in a neutral position:
-        setGoal(ArmConstants.kArmOffsetRadsads);
+        //setGoal(ArmConstants.kArmOffsetRadsads);
+        enable();
     }
 
     @Override
@@ -47,17 +48,17 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         // Calculate the feedforward from the sepoint
         double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
         // Add the feedforward to the PID output to get the motor output
-        mArm.setVoltage((mArm.getSelectedSensorPosition(), setpoint) + feedforward);
+        mArmMotor.setVoltage(output + feedforward);
     }
 
 
     @Override
     protected double getMeasurement() {
-        return nativeUnitsToDistanceMeters(mArm.getSelectedSensorPosition()) + ArmConstants.kArmOffsetRads; 
+        return nativeUnitsToDistanceMeters(mArmMotor.getSelectedSensorPosition()) + ArmConstants.kArmOffsetRads; 
     }
 
     public void moveArm(double speed) {
-        mArm.set(speed);
+        mArmMotor.set(speed);
     }
 
 
