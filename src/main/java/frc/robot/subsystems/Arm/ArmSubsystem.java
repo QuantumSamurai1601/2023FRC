@@ -48,11 +48,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         // Calculate the feedforward from the setpoint
         double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
         // Add the feedforward to the PID output to get the motor output
-<<<<<<< HEAD
         mArmMotor.setVoltage(output + feedforward);
-=======
-        mArm.setVoltage(output + feedforward);
->>>>>>> db8209553575ab7b225dbad3ffaba19729054489
     }
 
 

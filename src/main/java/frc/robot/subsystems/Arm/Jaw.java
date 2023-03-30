@@ -13,8 +13,8 @@ public class Jaw extends SubsystemBase{
     public static boolean isJawOpen = false; 
 
     public Jaw() {
-        jawSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0); 
-        compressor = new Compressor(0, PneumaticsModuleType.REVPH);
+        jawSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 6, 7); 
+        compressor = new Compressor(1, PneumaticsModuleType.REVPH);
         closeJaw();
         enableCompressor();
     }

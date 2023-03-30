@@ -13,13 +13,16 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import frc.robot.Commands.ToggleJaw;
 import frc.robot.Commands.moveArm;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
+import frc.robot.subsystems.Arm.Jaw;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -38,11 +41,13 @@ public class RobotContainer {
   // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final ArmSubsystem m_robotArm = new ArmSubsystem(); 
+    private final Jaw jaw = new Jaw(); 
+    private final ToggleJaw toggleJaw;
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   // The Arm's joystick controller
-  CommandJoystick m_armController = new CommandJoystick(OIConstants.kArmControllerPort);
+  XboxController m_armController = new XboxController(OIConstants.kArmControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -67,8 +72,10 @@ public class RobotContainer {
 
       
     m_robotArm.setDefaultCommand(
-      new moveArm(m_robotArm, () -> m_armController.getY())
+      new moveArm(m_robotArm, () -> m_armController.getLeftY())
     );
+
+    toggleJaw = new ToggleJaw(jaw, m_armController);
      
     
     
@@ -86,10 +93,15 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
+    new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+
+    new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
+
+
+
   }
 
     /* 895 */
