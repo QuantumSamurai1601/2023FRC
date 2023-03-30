@@ -160,7 +160,6 @@ public final class Constants {
     public static final double kDriveDeadband = 0.05;
   }
 
-
   /******************/
   /* AUTO CONSTANTS */
   /******************/
