@@ -28,7 +28,7 @@ public class ToggleJaw extends CommandBase{
                 isJawOpen = false;
             } else {
                 jaw.openJaw();
-                isJawOpen = false; 
+                isJawOpen = true; 
             }
         }
     }
