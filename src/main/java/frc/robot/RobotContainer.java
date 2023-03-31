@@ -15,12 +15,15 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.Commands.ToggleJaw;
-import frc.robot.Commands.moveArm;
+import frc.robot.Commands.Arm.ToggleJaw;
+import frc.robot.Commands.Arm.moveArm;
+import frc.robot.Commands.Arm.ArmExtension.ExtendArm;
+import frc.robot.Commands.Arm.ArmExtension.RetractArm;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
+import frc.robot.subsystems.Arm.Extension;
 import frc.robot.subsystems.Arm.Jaw;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
+
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -40,7 +44,11 @@ public class RobotContainer {
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final ArmSubsystem m_robotArm = new ArmSubsystem(); 
     private final Jaw jaw = new Jaw(); 
+    private final Extension extension = new Extension();
+
     private final ToggleJaw toggleJaw;
+    private final ExtendArm extendArm;
+    private final RetractArm retractArm; 
 
 
   // The driver's controller
@@ -55,7 +63,11 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     toggleJaw = new ToggleJaw(jaw, m_armController);
+    extendArm = new ExtendArm(extension, m_armController);
+    retractArm = new RetractArm(extension, m_armController); 
+
     configureButtonBindings();
+
 
 
 
@@ -68,17 +80,13 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                false, true),
+                true, true),
             m_robotDrive));
 
       
     m_robotArm.setDefaultCommand(
       new moveArm(m_robotArm, () -> m_armController.getLeftY())
     );
-
-     
-    
-    
 
       
   }
@@ -102,7 +110,10 @@ public class RobotContainer {
     // JAW TOGGLE
     new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
 
+    // ARM EXTENSTION
+    new JoystickButton(m_armController, Button.kA.value).onTrue(extendArm);
 
+    new JoystickButton(m_armController, Button.kB.value).onTrue(retractArm);
 
   }
 

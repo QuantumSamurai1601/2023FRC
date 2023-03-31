@@ -146,7 +146,13 @@ public final class Constants {
     public static double kP = 5.2784;
     public static double kMaxVelocityRadPerSecond = 0.75;
     public static double kMaxAccelerationRadPerSecSquared = 0.25;
-    public static State kArmOffsetRadsads; 
+    public static State kArmOffsetRadsads;
+
+    //EXTENSION
+    public static int kExtensionID = 12;
+
+    //JAW
+    
 
   }
 

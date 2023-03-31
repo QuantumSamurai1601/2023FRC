@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -188,6 +189,13 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]); 
+
+    // Smart Dashboard Drive Info
+    SmartDashboard.putNumber("XSpeed Delivered", xSpeedDelivered);
+    SmartDashboard.putNumber("YSpeed Delivered", ySpeedDelivered);
+    SmartDashboard.putNumber("Rot Delivered", rotDelivered);
+    SmartDashboard.putBoolean("FeildRelative", fieldRelative);
+
   }
 
   /**
