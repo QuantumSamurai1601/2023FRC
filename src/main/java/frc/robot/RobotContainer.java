@@ -98,6 +98,8 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
+
+    // JAW TOGGLE
     new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
 
 

@@ -11,6 +11,7 @@ public class Jaw extends SubsystemBase{
     private DoubleSolenoid jawSolenoid; 
     private Compressor compressor; 
     public static boolean isJawOpen = false; 
+    public static boolean isCompressorOn = true; 
 
     public Jaw() {
         jawSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 6, 7); 
@@ -43,6 +44,10 @@ public class Jaw extends SubsystemBase{
 
     public static boolean isJawOpen(){
         return isJawOpen; 
+    }
+
+    public static boolean isCompressorOn(){
+        return isCompressorOn;
     }
     
 }
