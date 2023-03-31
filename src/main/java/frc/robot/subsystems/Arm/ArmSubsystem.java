@@ -6,10 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.ModuleConstants;
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
 
@@ -29,7 +27,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
             new ProfiledPIDController(
                 ArmConstants.kP,
                 0,
-                0,
+                ArmConstants.kD,
                 new TrapezoidProfile.Constraints(
                     ArmConstants.kMaxVelocityRadPerSecond,
                     ArmConstants.kMaxAccelerationRadPerSecSquared)),
@@ -54,21 +52,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        return nativeUnitsToDistanceMeters(mArmMotor.getSelectedSensorPosition()) + ArmConstants.kArmOffsetRads; 
+        return mArmMotor.getSelectedSensorPosition() + ArmConstants.kArmOffsetRads; 
     }
 
     public void moveArm(double speed) {
         mArmMotor.set(speed);
     }
-
-
-
-    private double nativeUnitsToDistanceMeters(double sensorCounts){
-        double motorRotations = (double)sensorCounts / 2048; // 2048 = integrated encoder counts per revolution
-        double wheelRotations = motorRotations / ModuleConstants.kDrivingMotorReduction;
-        double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(1.5));
-        return positionMeters;
-      }
 
 
     

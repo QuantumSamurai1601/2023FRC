@@ -14,10 +14,15 @@ public class Extension extends SubsystemBase{
     }
 
     public void Extend() {
+
+        //TODO: FIGURE OUT THESE VALUES:
         extensionMotor.set(ControlMode.PercentOutput, 0.00);
+
     }
 
     public void Retract() {
+
+        //TODO: FIGURE OUT THESE VALUES:
         extensionMotor.set(ControlMode.PercentOutput, 0.00);
     }
 

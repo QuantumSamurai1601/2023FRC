@@ -24,7 +24,7 @@ public class ToggleCompressor extends CommandBase{
 
     @Override
     public void execute() {
-        if (m_armController.getAButtonPressed()) {
+        if (m_armController.getXButtonPressed()) {
             if (isCompressorOn == true) {
                 jaw.disableCompressor();
                 isCompressorOn = false; 
