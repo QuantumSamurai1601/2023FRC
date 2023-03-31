@@ -142,7 +142,7 @@ public final class Constants {
     public static final double Ks = 0.041;
     public static final double Kg = 0.14;
     public static final double Kv = 6.909;
-    public static final double Ka = 17;
+    public static final double Ka = 0.17016;
 
   
     
