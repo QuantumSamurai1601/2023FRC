@@ -54,8 +54,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    configureButtonBindings();
     toggleJaw = new ToggleJaw(jaw, m_armController);
+    configureButtonBindings();
 
 
 

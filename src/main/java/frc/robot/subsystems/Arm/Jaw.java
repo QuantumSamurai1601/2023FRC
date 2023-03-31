@@ -14,19 +14,19 @@ public class Jaw extends SubsystemBase{
     public static boolean isCompressorOn = true; 
 
     public Jaw() {
-        jawSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 6, 7); 
-        compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+        jawSolenoid = new DoubleSolenoid(6, PneumaticsModuleType.REVPH, 6, 7); 
+        compressor = new Compressor(6, PneumaticsModuleType.REVPH);
         closeJaw();
         enableCompressor();
     }
 
     public void openJaw() {
-        jawSolenoid.set(Value.kForward);
+        jawSolenoid.set(Value.kReverse);
         isJawOpen = true; 
     }
 
     public void closeJaw(){
-        jawSolenoid.set(Value.kReverse);
+        jawSolenoid.set(Value.kForward);
         isJawOpen = false; 
     }
 
