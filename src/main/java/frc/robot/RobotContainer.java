@@ -47,6 +47,7 @@ public class RobotContainer {
     private final Extension extension = new Extension();
 
     private final ToggleJaw toggleJaw;
+    private final ToggleCompressor toggleCompressor;
     private final ExtendArm extendArm;
     private final RetractArm retractArm; 
 
@@ -63,6 +64,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     toggleJaw = new ToggleJaw(jaw, m_armController);
+    toggleCompressor = new toggleCompressor(jaw, m_armController);
     extendArm = new ExtendArm(extension, m_armController);
     retractArm = new RetractArm(extension, m_armController); 
 
@@ -110,10 +112,26 @@ public class RobotContainer {
     // JAW TOGGLE
     new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
 
-    // ARM EXTENSTION
-    new JoystickButton(m_armController, Button.kA.value).onTrue(extendArm);
+    // COMPRESSOR TOGGLE
+    new JoystickButton(m_armController, Button.kX.value).onTrue(toggleCompressor);
 
-    new JoystickButton(m_armController, Button.kB.value).onTrue(retractArm);
+    // ARM EXTENSTION
+    new JoystickButton(m_armController, Button.kA.value).whileTrue(extendArm);
+    // RETRACTION 
+    new JoystickButton(m_armController, Button.kB.value).whileTrue(retractArm);
+
+    // Move the arm to 2 radians above horizontal when the 'A' button is pressed.
+    m_armController
+        .y()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  m_robotArm.setGoal(2);
+                  m_robotArm.enable();
+                },
+                m_robotArm));
+
+
 
   }
 
