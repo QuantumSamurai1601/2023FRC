@@ -17,7 +17,7 @@ public class moveArm extends PIDCommand {
   static final double kI = 0.001;
   static final double kD = 0.00;*/
   /** Creates a new arm. */
-  public moveArm(double PreferredAngle, sArm) {
+  public moveArm(double PreferredAngle, ArmSubsystem sArm) {
     super(
         // The controller that the command will use
         new PIDController(ArmConstants.kP, 1, ArmConstants.kD),
@@ -28,7 +28,7 @@ public class moveArm extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          arm.ArmMove(output);
+          sArm.ArmMove(output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(sArm);
