@@ -28,7 +28,6 @@ import frc.robot.subsystems.Arm.Extension;
 import frc.robot.subsystems.Arm.Jaw;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -88,13 +87,11 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
-
-      
+    /* 
     m_robotArm.setDefaultCommand(
-      new moveArm(m_robotArm, () -> m_armController.getLeftY())
+      new moveArm(m_armController.getLeftY(), m_robotArm)
     );
-
-      
+    */
   }
 
   /**
@@ -127,17 +124,8 @@ public class RobotContainer {
     // RETRACTION 
     new JoystickButton(m_armController, Button.kB.value).whileTrue(retractArm);
 
-    // Move the arm to 1.57 radians above horizontal when the 'A' button is pressed.
-    aButton
-      .onTrue(Commands.runOnce(
-        () -> {
-          SmartDashboard.putBoolean("A Button", true);
-          m_robotArm.setGoal(1.57);
-          m_robotArm.enable();
-          System.out.print("A pressed");
-          SmartDashboard.putBoolean("A Button", false);
-        },
-        m_robotArm));
+    // Move the arm to 90 radians above horizontal when the 'A' button is pressed.
+    aButton.onTrue(new moveArm(90, m_robotArm));
   }
 
     /* 895 */
