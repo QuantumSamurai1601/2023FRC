@@ -32,7 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Arm", getShoulderPos());
+    SmartDashboard.putNumber("Arm", getArmPos());
     SmartDashboard.updateValues();
   }
 
@@ -106,7 +106,7 @@ public class ArmSubsystem extends SubsystemBase {
     return position;
   }
 
-  // Gets the position of the shoulder for the move to position
+  // Gets the position of the arm for the move to position
   public double getArmPos() {                         // 400 is the gear reduction
     return (Arm.getSelectedSensorPosition() / (2048 * 400 / 360));
         //- ArmConstants.kArmOffSet;

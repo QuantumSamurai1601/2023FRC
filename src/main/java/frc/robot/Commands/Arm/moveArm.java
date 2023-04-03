@@ -25,7 +25,7 @@ public class moveArm extends CommandBase {
 
     @Override
     public void execute() {
-      m_ArmSubsystem.setGoal(ArmSubsystem.mArmMotor.getSelectedSensorPosition());
+      m_ArmSubsystem.setGoal(ArmSubsystem.Arm.getSelectedSensorPosition());
       m_ArmSubsystem.moveArm(m_AxisMove.getAsDouble());
     }
 
