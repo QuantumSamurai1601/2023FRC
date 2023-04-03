@@ -7,7 +7,7 @@ package frc.robot.Commands.Arm;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm.ArmSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,7 +22,7 @@ public class moveArm extends PIDCommand {
         // The controller that the command will use
         new PIDController(ArmConstants.kP, 1, ArmConstants.kD),
         // This should return the measurement
-        arm::getArmPos,
+        sArm::getArmPos,
         // This should return the setpoint (can also be a constant)
         PreferredAngle,
         // This uses the output
