@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.commands.Arm.moveArm;
+import frc.robot.Commands.Arm.moveArm;
 
 public class ArmSubsystem extends SubsystemBase {
 
   // Sets up the arm
   public WPI_TalonFX Arm = new WPI_TalonFX(11);
 
-  Arm sArm;
+  ArmSubsystem sArm;
 
   double position = 0;
 
@@ -99,7 +99,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void ArmPeriodMove() {
-    new ArmMoveToPosition(position, sArm);
+    new moveArm(position, sArm);
   }
 
   public double getArmDesirePos() {
