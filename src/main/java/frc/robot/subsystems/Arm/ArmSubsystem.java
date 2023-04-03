@@ -1,71 +1,114 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems.Arm;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-import edu.wpi.first.wpilibj.Encoder;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.Arm.moveArm;
 
-public class ArmSubsystem extends ProfiledPIDSubsystem {
+public class ArmSubsystem extends SubsystemBase {
 
-    public static final WPI_TalonFX mArmMotor = new WPI_TalonFX(11);
-    public static final Encoder encoder = new Encoder(0, 1);
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(
-    ArmConstants.Ks,
-    ArmConstants.Kg,
-    ArmConstants.Kv,
-    ArmConstants.Ka);
+  // Sets up the arm
+  public WPI_TalonFX Arm = new WPI_TalonFX(11);
 
+  Arm sArm;
 
-    public ArmSubsystem() {
+  double position = 0;
 
+  /** Creates a new arm. * */
+  public ArmSubsystem() {
 
-        // Creates motion controller 
-        super(
-            new ProfiledPIDController(
-                ArmConstants.kP,
-                0,
-                ArmConstants.kD,
-                new TrapezoidProfile.Constraints(
-                    ArmConstants.kMaxVelocityRadPerSecond,
-                    ArmConstants.kMaxAccelerationRadPerSecSquared)),
-            0);
+    Arm.setNeutralMode(NeutralMode.Brake);
 
+    Arm.setSelectedSensorPosition(0);
+  }
 
-        // mArmMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Arm", getShoulderPos());
+    SmartDashboard.updateValues();
+  }
 
-        // Start Arm in a neutral position:
+  public void ResetArmEncoder() {
+    Arm.setSelectedSensorPosition(0);
+  }
 
-        m_encoder.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
-        setGoal(ArmConstants.kArmOffsetRadsads);
-        enable();
+  public Command cmdResetArmEncoder() {
+    return this.runOnce(this::ResetArmEncoder);
+  }
+
+  /** The Arm */
+
+  // Moves Arm Forward
+  public void ArmForward() {
+    Arm.set(-.25);
+  }
+
+  // Command to move the arm forward function
+  public Command cmdArmForward() {
+    return this.runEnd(this::ArmForward, this::ArmStop);
+  }
+
+  // Moves Arm backward
+  public void ArmBackward() {
+    Arm.set(.25);
+  }
+
+  // Command to move arm backward function
+  public Command cmdArmBackward() {
+    return this.runEnd(this::ArmBackward, this::ArmStop);
+  }
+
+  // Stops the arm after movement
+  public void ArmStop() {
+    Arm.set(0);
+  }
+
+  public void ArmPoseForward() {
+    if (position < 1.57) {
+      position += .1;
     }
+  }
 
-    @Override
-    protected void useOutput(double output, TrapezoidProfile.State setpoint) {
-        // Calculate the feedforward from the setpoint
-        double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
-        // Add the feedforward to the PID output to get the motor output
-        mArmMotor.setVoltage(output + feedforward);
+  // Command to move the arm forward function
+  public Command cmdArmPoseForward() {
+    return this.run(this::ArmPoseForward);
+  }
+
+  public void ArmPoseBackward() {
+    if (position > -0.35) {
+      position -= .1;
     }
+  }
 
+  // Command to move the arm backward function
+  public Command cmdArmPoseBackward() {
+    return this.run(this::ArmPoseBackward);
+  }
 
-    @Override
-    protected double getMeasurement() {
-        return  + ArmConstants.kArmOffsetRads; 
-    }
+  // Moves the arm so that it will move to a position
+  public void ArmMove(Double Speed) {
+    Arm.set(Speed);
+  }
 
+  public void ArmPeriodMove() {
+    new ArmMoveToPosition(position, sArm);
+  }
 
-    public void moveArm(double speed) {
-        mArmMotor.set(speed);
-    }
+  public double getArmDesirePos() {
+    return position;
+  }
 
-
-    
+  // Gets the position of the shoulder for the move to position
+  public double getArmPos() {                         // 400 is the gear reduction
+    return (Arm.getSelectedSensorPosition() / (2048 * 400 / 360));
+        //- ArmConstants.kArmOffSet;
+  }
 }

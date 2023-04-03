@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.Arm.ToggleJaw;
 import frc.robot.Commands.Arm.moveArm;
 import frc.robot.Commands.Arm.ArmExtension.ExtendArm;
@@ -27,9 +28,12 @@ import frc.robot.subsystems.Arm.Extension;
 import frc.robot.subsystems.Arm.Jaw;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import java.util.List;
 
 
@@ -47,7 +51,7 @@ public class RobotContainer {
     private final Extension extension = new Extension();
 
     private final ToggleJaw toggleJaw;
-    private final ToggleCompressor toggleCompressor;
+    //private final ToggleCompressor toggleCompressor;
     private final ExtendArm extendArm;
     private final RetractArm retractArm; 
 
@@ -64,7 +68,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     toggleJaw = new ToggleJaw(jaw, m_armController);
-    toggleCompressor = new toggleCompressor(jaw, m_armController);
+    //toggleCompressor = new toggleCompressor(jaw, m_armController);
     extendArm = new ExtendArm(extension, m_armController);
     retractArm = new RetractArm(extension, m_armController); 
 
@@ -113,26 +117,27 @@ public class RobotContainer {
     new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
 
     // COMPRESSOR TOGGLE
-    new JoystickButton(m_armController, Button.kX.value).onTrue(toggleCompressor);
+    //new JoystickButton(m_armController, Button.kX.value).onTrue(toggleCompressor);
+
+    // Command button A
+    Trigger aButton = new JoystickButton(m_armController, XboxController.Button.kA.value);
 
     // ARM EXTENSTION
     new JoystickButton(m_armController, Button.kA.value).whileTrue(extendArm);
     // RETRACTION 
     new JoystickButton(m_armController, Button.kB.value).whileTrue(retractArm);
 
-    // Move the arm to 2 radians above horizontal when the 'A' button is pressed.
-    m_armController
-        .y()
-        .onTrue(
-            Commands.runOnce(
-                () -> {
-                  m_robotArm.setGoal(2);
-                  m_robotArm.enable();
-                },
-                m_robotArm));
-
-
-
+    // Move the arm to 1.57 radians above horizontal when the 'A' button is pressed.
+    aButton
+      .onTrue(Commands.runOnce(
+        () -> {
+          SmartDashboard.putBoolean("A Button", true);
+          m_robotArm.setGoal(1.57);
+          m_robotArm.enable();
+          System.out.print("A pressed");
+          SmartDashboard.putBoolean("A Button", false);
+        },
+        m_robotArm));
   }
 
     /* 895 */
