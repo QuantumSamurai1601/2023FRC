@@ -20,7 +20,7 @@ public class moveArm extends PIDCommand {
   public moveArm(double PreferredAngle, ArmSubsystem sArm) {
     super(
         // The controller that the command will use
-        new PIDController(ArmConstants.kP, 1, ArmConstants.kD),
+        new PIDController(ArmConstants.kP, 0, ArmConstants.kD),
         // This should return the measurement
         sArm::getArmPos,
         // This should return the setpoint (can also be a constant)
