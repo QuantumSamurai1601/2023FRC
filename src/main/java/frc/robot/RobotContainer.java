@@ -111,13 +111,17 @@ public class RobotContainer {
 
 
     // JAW TOGGLE
-    new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
+    // new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
 
     // COMPRESSOR TOGGLE
     //new JoystickButton(m_armController, Button.kX.value).onTrue(toggleCompressor);
 
-    // Command button A
+    // Command buttons
     Trigger aButton = new JoystickButton(m_armController, XboxController.Button.kA.value);
+    Trigger bButton = new JoystickButton(m_armController, XboxController.Button.kB.value);
+    Trigger xButton = new JoystickButton(m_armController, XboxController.Button.kX.value);
+    Trigger yButton = new JoystickButton(m_armController, XboxController.Button.kY.value);
+    Trigger rBumper = new JoystickButton(m_armController, XboxController.Button.kRightBumper.value);
 
     // ARM EXTENSTION
     new JoystickButton(m_armController, Button.kA.value).whileTrue(extendArm);
@@ -125,7 +129,12 @@ public class RobotContainer {
     new JoystickButton(m_armController, Button.kB.value).whileTrue(retractArm);
 
     // Move the arm to 90 radians above horizontal when the 'A' button is pressed.
-    aButton.onTrue(new moveArm(90, m_robotArm));
+    aButton.onTrue(new moveArm(-90, m_robotArm));
+    bButton.onTrue(new moveArm(-45, m_robotArm));
+    yButton.onTrue(new moveArm(-30, m_robotArm));
+    xButton.onTrue(new moveArm(30, m_robotArm));
+
+    rBumper.onTrue(new moveArm(0, m_robotArm));
   }
 
     /* 895 */
