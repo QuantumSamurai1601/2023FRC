@@ -24,6 +24,6 @@ public class ExtendArm extends CommandBase{
     public void execute() {
         if (m_armController.getAButton()) {
             extension.Extend();
-        }
+        } 
     }
 }

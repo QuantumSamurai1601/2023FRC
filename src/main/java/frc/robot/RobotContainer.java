@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -17,8 +19,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Commands.Arm.ToggleJaw;
 import frc.robot.Commands.Arm.moveArm;
-import frc.robot.Commands.Arm.ArmExtension.ExtendArm;
-import frc.robot.Commands.Arm.ArmExtension.RetractArm;
+import frc.robot.Commands.Arm.ArmExtension.HoldArm;
+// import frc.robot.Commands.Arm.ArmExtension.ExtendArm;
+// import frc.robot.Commands.Arm.ArmExtension.RetractArm;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -40,21 +43,20 @@ import java.util.List;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
   // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final ArmSubsystem m_robotArm = new ArmSubsystem(); 
     private final Jaw jaw = new Jaw(); 
     private final Extension extension = new Extension();
-
     private final ToggleJaw toggleJaw;
-    private final ToggleCompressor toggleCompressor;
-    private final ExtendArm extendArm;
-    private final RetractArm retractArm; 
+    private final HoldArm holdArm; 
+    // private final ExtendArm extendArm;
+    // private final RetractArm retractArm; 
 
 
-  // The driver's controller
+  // Driver Inputs
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  // The Arm's joystick controller
   XboxController m_armController = new XboxController(OIConstants.kArmControllerPort);
   
 
@@ -64,13 +66,14 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     toggleJaw = new ToggleJaw(jaw, m_armController);
-    toggleCompressor = new toggleCompressor(jaw, m_armController);
-    extendArm = new ExtendArm(extension, m_armController);
-    retractArm = new RetractArm(extension, m_armController); 
+    holdArm = new HoldArm(extension); 
+    // extendArm = new ExtendArm(extension, m_armController);
+    // retractArm = new RetractArm(extension, m_armController); 
+
+    CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+
 
     configureButtonBindings();
-
-
 
 
     // Configure default commands
@@ -85,11 +88,11 @@ public class RobotContainer {
                 true, true),
             m_robotDrive));
 
-      
     m_robotArm.setDefaultCommand(
-      new moveArm(m_robotArm, () -> m_armController.getLeftY())
+      new moveArm(m_robotArm, () -> m_armController.getLeftY()*0.25)
     );
 
+    extension.setDefaultCommand(holdArm);
       
   }
 
@@ -103,33 +106,26 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
+    // ARM EXTENSTION
+    new JoystickButton(m_armController, Button.kLeftBumper.value)
+    .whileTrue(new RunCommand(
+      ()-> extension.Extend(), 
+      extension));
+
+    new JoystickButton(m_armController, Button.kRightBumper.value)
+    .whileTrue(new RunCommand(
+      ()-> extension.Retract(), 
+      extension));
+    
 
     // JAW TOGGLE
-    new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
-
-    // COMPRESSOR TOGGLE
-    new JoystickButton(m_armController, Button.kX.value).onTrue(toggleCompressor);
-
-    // ARM EXTENSTION
-    new JoystickButton(m_armController, Button.kA.value).whileTrue(extendArm);
-    // RETRACTION 
-    new JoystickButton(m_armController, Button.kB.value).whileTrue(retractArm);
-
-    // Move the arm to 2 radians above horizontal when the 'A' button is pressed.
-    m_armController
-        .y()
-        .onTrue(
-            Commands.runOnce(
-                () -> {
-                  m_robotArm.setGoal(2);
-                  m_robotArm.enable();
-                },
-                m_robotArm));
+    new JoystickButton(m_armController, Button.kX.value).onTrue(toggleJaw); 
 
 
 

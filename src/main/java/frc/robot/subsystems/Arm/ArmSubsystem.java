@@ -1,21 +1,19 @@
 package frc.robot.subsystems.Arm;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj.Encoder;
-
 import frc.robot.Constants.ArmConstants;
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     public static final WPI_TalonFX mArmMotor = new WPI_TalonFX(11);
-    public static final Encoder encoder = new Encoder(0, 1);
+    public Encoder encoder = new Encoder(0, 1);
     private final ArmFeedforward m_feedforward = new ArmFeedforward(
     ArmConstants.Ks,
     ArmConstants.Kg,
@@ -24,6 +22,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
 
     public ArmSubsystem() {
+
 
 
         // Creates motion controller 
@@ -36,15 +35,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
                     ArmConstants.kMaxVelocityRadPerSecond,
                     ArmConstants.kMaxAccelerationRadPerSecSquared)),
             0);
-
-
-        // mArmMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+            
 
         // Start Arm in a neutral position:
-
-        m_encoder.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
         setGoal(ArmConstants.kArmOffsetRadsads);
-        enable();
+
+        disable();
     }
 
     @Override
@@ -58,9 +54,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        return  + ArmConstants.kArmOffsetRads; 
+        return encoder.getDistance() + ArmConstants.kArmOffsetRads; 
     }
-
 
     public void moveArm(double speed) {
         mArmMotor.set(speed);

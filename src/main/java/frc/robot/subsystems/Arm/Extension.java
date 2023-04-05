@@ -11,20 +11,23 @@ public class Extension extends SubsystemBase{
     
     public Extension() {
         extensionMotor = new TalonFX(ArmConstants.kExtensionID);
+        extensionMotor.set(ControlMode.PercentOutput, 0);
     }
 
+
+
     public void Extend() {
-
-        //TODO: FIGURE OUT THESE VALUES:
-        extensionMotor.set(ControlMode.PercentOutput, 0.00);
-
+        extensionMotor.set(ControlMode.PercentOutput, 0.30);
     }
 
     public void Retract() {
+        extensionMotor.set(ControlMode.PercentOutput, -0.30);
+    }
 
-        //TODO: FIGURE OUT THESE VALUES:
+    public void setNeutral() {
         extensionMotor.set(ControlMode.PercentOutput, 0.00);
     }
+
 
 
     

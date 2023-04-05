@@ -22,7 +22,7 @@ public class RetractArm extends CommandBase{
 
     @Override
     public void execute() {
-        if (m_armController.getBButton()) {
+        if (m_armController.getBButtonPressed()) {
             extension.Retract();
         }
     }
