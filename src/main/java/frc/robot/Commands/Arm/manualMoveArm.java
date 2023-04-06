@@ -17,6 +17,6 @@ public class manualMoveArm extends CommandBase {
     @Override
     public void execute() {
         double speed = xboxController.getLeftY();
-        armSubsystem.ArmMove(speed);
+        armSubsystem.ArmMove(speed * 0.5);
     }
 }
