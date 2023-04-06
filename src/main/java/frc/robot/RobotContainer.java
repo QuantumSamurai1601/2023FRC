@@ -95,42 +95,24 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
+    // new JoystickButton(m_driverController, Button.kRightBumper.value)
+    //     .whileTrue(new RunCommand(
+    //         () -> m_robotDrive.setX(),
+    //         m_robotDrive));
 
     // JAW TOGGLE
     new JoystickButton(m_armController, Button.kA.value).onTrue(new ToggleJaw(jaw)); 
-    
-    // Command buttons
-    Trigger aButton = new JoystickButton(m_armController, XboxController.Button.kA.value);
-    Trigger bButton = new JoystickButton(m_armController, XboxController.Button.kB.value);
-    Trigger xButton = new JoystickButton(m_armController, XboxController.Button.kX.value);
-    Trigger yButton = new JoystickButton(m_armController, XboxController.Button.kY.value);
-
-    // Trigger leftY = new JoystickButton(m_armController, XboxController.Axis.kLeftY.value);
- 
-    // Trigger lBumper = new JoystickButton(m_armController, XboxController.Button.kLeftBumper.value);
-    Trigger rBumper = new JoystickButton(m_armController, XboxController.Button.kRightBumper.value);
 
     // ARM EXTENSTION
-    // new JoystickButton(m_armController, Button.kA.value).whileTrue(extendArm);
-    new JoystickButton(m_armController, Button.kLeftBumper.value).whileTrue(new ExtendArm(extension));
-    // RETRACTION 
-    // new JoystickButton(m_armController, Button.kB.value).whileTrue(retractArm);
+    new JoystickButton(m_armController, Button.kLeftBumper.value).whileTrue(new ExtendArm(extension, m_robotArm));
+
+    // ARM RETRACTION 
     new JoystickButton(m_armController, Button.kRightBumper.value).whileTrue(new RetractArm(extension));
 
-    // Move the arm to 90 radians above horizontal when the 'A' button is pressed.
-     //aButton.onTrue(new moveArm(0, m_robotArm));
-    // bButton.onTrue(new moveArm(-45, m_robotArm));
-    yButton.onTrue(new moveArm(-90, m_robotArm));
-    xButton.onTrue(new moveArm(0, m_robotArm));
-
-    //rBumper.onTrue(new moveArm(0, m_robotArm));
+    // ARM PRESETS
+    new JoystickButton(m_armController, Button.kY.value).onTrue(new moveArm(-90, m_robotArm));
+    new JoystickButton(m_armController, Button.kX.value).onTrue(new moveArm(0, m_robotArm));
   }
-
-    /* 895 */
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

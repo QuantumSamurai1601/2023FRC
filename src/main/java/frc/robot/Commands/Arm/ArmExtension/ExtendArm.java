@@ -1,13 +1,16 @@
 package frc.robot.Commands.Arm.ArmExtension;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Arm.Extension;
 
 public class ExtendArm extends CommandBase{
     private final Extension extension; 
+    private final ArmSubsystem arm; 
 
-    public ExtendArm(Extension extension) {
+    public ExtendArm(Extension extension, ArmSubsystem arm) {
         this.extension = extension;
+        this.arm = arm; 
         addRequirements(extension);
     }
 
@@ -22,7 +25,9 @@ public class ExtendArm extends CommandBase{
         // if (m_armController.getAButton()) {
         //     extension.Extend();
         // }
-        extension.Extend();// put your constraints in here 
+        if (20 < arm.getArmPos() || arm.getArmPos() < -20) {
+        extension.Extend(); // put your constraints in here 
+        }
     }
 
     public boolean isFinished() {
