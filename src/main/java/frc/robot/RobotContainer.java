@@ -51,12 +51,6 @@ public class RobotContainer {
     private final Jaw jaw = new Jaw(); 
     private final Extension extension = new Extension();
 
-    private final ToggleJaw toggleJaw;
-    //private final ToggleCompressor toggleCompressor;
-    private final ExtendArm extendArm;
-    private final RetractArm retractArm; 
-
-
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   // The Arm's joystick controller
@@ -68,10 +62,6 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    toggleJaw = new ToggleJaw(jaw);
-    extendArm = new ExtendArm(extension);
-    retractArm = new RetractArm(extension); 
-
     configureButtonBindings();
 
     // Configure default commands
@@ -111,7 +101,7 @@ public class RobotContainer {
             m_robotDrive));
 
     // JAW TOGGLE
-    new JoystickButton(m_armController, Button.kA.value).onTrue(toggleJaw); 
+    new JoystickButton(m_armController, Button.kA.value).onTrue(new ToggleJaw(jaw)); 
     
     // Command buttons
     Trigger aButton = new JoystickButton(m_armController, XboxController.Button.kA.value);
