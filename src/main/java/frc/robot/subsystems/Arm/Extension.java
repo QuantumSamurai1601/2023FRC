@@ -1,6 +1,7 @@
 package frc.robot.subsystems.Arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,21 +12,14 @@ public class Extension extends SubsystemBase{
     
     public Extension() {
         extensionMotor = new TalonFX(ArmConstants.kExtensionID);
+        extensionMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     public void Extend() {
-
-        //TODO: FIGURE OUT THESE VALUES:
-        extensionMotor.set(ControlMode.PercentOutput, 0.00);
-
+        extensionMotor.set(ControlMode.PercentOutput, 0.30);
     }
 
     public void Retract() {
-
-        //TODO: FIGURE OUT THESE VALUES:
-        extensionMotor.set(ControlMode.PercentOutput, 0.00);
+        extensionMotor.set(ControlMode.PercentOutput, -0.30);
     }
-
-
-    
 }

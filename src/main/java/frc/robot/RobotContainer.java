@@ -13,15 +13,15 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.Arm.ToggleJaw;
+import frc.robot.Commands.Arm.manualMoveArm;
 import frc.robot.Commands.Arm.moveArm;
 import frc.robot.Commands.Arm.ArmExtension.ExtendArm;
 import frc.robot.Commands.Arm.ArmExtension.RetractArm;
+import frc.robot.Commands.Drive.drive;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -60,7 +60,7 @@ public class RobotContainer {
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   // The Arm's joystick controller
-  CommandXboxController m_armController = new CommandXboxController(OIConstants.kArmControllerPort);
+  XboxController m_armController = new XboxController(OIConstants.kArmControllerPort);
   
 
   /**
@@ -85,11 +85,14 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
-    /* 
+
+    configureDefaultCommands();
+  }
+
+  private void configureDefaultCommands() {
     m_robotArm.setDefaultCommand(
-      new moveArm(m_armController.getLeftY(), m_robotArm)
+      new manualMoveArm(m_robotArm, m_armController)
     );
-    */
   }
 
   /**
@@ -109,14 +112,14 @@ public class RobotContainer {
 
     // JAW TOGGLE
     new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
-
+    
     // Command buttons
     Trigger aButton = new JoystickButton(m_armController, XboxController.Button.kA.value);
     Trigger bButton = new JoystickButton(m_armController, XboxController.Button.kB.value);
     Trigger xButton = new JoystickButton(m_armController, XboxController.Button.kX.value);
     Trigger yButton = new JoystickButton(m_armController, XboxController.Button.kY.value);
 
-    Trigger leftY = new JoystickButton(m_armController, XboxController.Axis.kLeftY.value);
+    // Trigger leftY = new JoystickButton(m_armController, XboxController.Axis.kLeftY.value);
  
     // Trigger lBumper = new JoystickButton(m_armController, XboxController.Button.kLeftBumper.value);
     Trigger rBumper = new JoystickButton(m_armController, XboxController.Button.kRightBumper.value);
@@ -181,7 +184,7 @@ public class RobotContainer {
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, true));
   }
 }
 //ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here 

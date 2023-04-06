@@ -23,9 +23,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   /** Creates a new arm. * */
   public ArmSubsystem() {
-
     Arm.setNeutralMode(NeutralMode.Brake);
-
     Arm.setSelectedSensorPosition(0);
   }
 
