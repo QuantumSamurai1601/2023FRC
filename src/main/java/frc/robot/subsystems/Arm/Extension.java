@@ -13,6 +13,7 @@ public class Extension extends SubsystemBase{
     public Extension() {
         extensionMotor = new TalonFX(ArmConstants.kExtensionID);
         extensionMotor.setNeutralMode(NeutralMode.Brake);
+        extensionMotor.setInverted(true);
     }
 
     public void Extend() {

@@ -103,11 +103,11 @@ public class RobotContainer {
     // JAW TOGGLE
     new JoystickButton(m_armController, Button.kA.value).onTrue(new ToggleJaw(jaw)); 
 
-    // ARM EXTENSTION
-    new JoystickButton(m_armController, Button.kLeftBumper.value).whileTrue(new ExtendArm(extension, m_robotArm));
+    // ARM RETRACTION
+    new JoystickButton(m_armController, Button.kLeftBumper.value).whileTrue(new RetractArm(extension));
 
-    // ARM RETRACTION 
-    new JoystickButton(m_armController, Button.kRightBumper.value).whileTrue(new RetractArm(extension));
+    // ARM EXTENSION 
+    new JoystickButton(m_armController, Button.kRightBumper.value).whileTrue(new ExtendArm(extension, m_robotArm));
 
     // ARM PRESETS
     new JoystickButton(m_armController, Button.kY.value).onTrue(new moveArm(-90, m_robotArm));
