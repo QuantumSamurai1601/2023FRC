@@ -68,7 +68,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    toggleJaw = new ToggleJaw(jaw, m_armController);
+    toggleJaw = new ToggleJaw(jaw);
     extendArm = new ExtendArm(extension);
     retractArm = new RetractArm(extension); 
 
