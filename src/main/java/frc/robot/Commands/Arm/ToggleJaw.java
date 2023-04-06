@@ -22,14 +22,12 @@ public class ToggleJaw extends CommandBase{
 
     @Override
     public void execute() {
-        if (m_armController.getRightBumperPressed()) {
-            if (isJawOpen == true) {
-                jaw.closeJaw(); 
-                isJawOpen = false;
-            } else {
-                jaw.openJaw();
-                isJawOpen = true; 
-            }
+        if (isJawOpen == true) {
+            jaw.closeJaw(); 
+            isJawOpen = false;
+        } else {
+            jaw.openJaw();
+            isJawOpen = true; 
         }
     }
 

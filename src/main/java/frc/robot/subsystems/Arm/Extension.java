@@ -16,11 +16,11 @@ public class Extension extends SubsystemBase{
     }
 
     public void Extend() {
-        extensionMotor.set(ControlMode.PercentOutput, 0.30);
+        extensionMotor.set(ControlMode.PercentOutput, 0.25);
     }
 
     public void Retract() {
-        extensionMotor.set(ControlMode.PercentOutput, -0.30);
+        extensionMotor.set(ControlMode.PercentOutput, -0.25);
     }
 
     public void stop() {
