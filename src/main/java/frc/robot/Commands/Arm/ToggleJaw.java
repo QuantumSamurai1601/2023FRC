@@ -1,9 +1,10 @@
 package frc.robot.Commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Arm.Jaw;
 
-public class ToggleJaw extends CommandBase{
+public class ToggleJaw extends InstantCommand{
     private final Jaw jaw; 
     private boolean isJawOpen = false; 
 

@@ -32,7 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm", getArmPos());
-    SmartDashboard.putNumber("ARM Encoder", Arm.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Arm Encoder", Arm.getSelectedSensorPosition());
     SmartDashboard.updateValues();
   }
 
