@@ -6,6 +6,8 @@ package frc.robot.subsystems.Arm;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -93,7 +95,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   // Moves the arm so that it will move to a position
-  public void ArmMove(Double Speed) {
+  public void ArmMove(Double Speed) { // manual moving 
     Arm.set(Speed);
   }
 

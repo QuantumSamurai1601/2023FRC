@@ -22,4 +22,8 @@ public class Extension extends SubsystemBase{
     public void Retract() {
         extensionMotor.set(ControlMode.PercentOutput, -0.30);
     }
+
+    public void stop() {
+        extensionMotor.set(ControlMode.PercentOutput, 0);
+    }
 }

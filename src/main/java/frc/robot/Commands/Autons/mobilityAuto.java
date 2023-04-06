@@ -7,7 +7,7 @@ import frc.robot.subsystems.Drive.DriveSubsystem;
 public class mobilityAuto extends SequentialCommandGroup {
     public mobilityAuto (DriveSubsystem driveSubsystem) {
         addCommands(
-            new drive(driveSubsystem, 1, 0, 0, true, true, 4)
+            new drive(driveSubsystem, 0, 1, 0, true, true, 8)
         );
     }
 }

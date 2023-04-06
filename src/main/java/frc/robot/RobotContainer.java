@@ -69,8 +69,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     toggleJaw = new ToggleJaw(jaw, m_armController);
-    extendArm = new ExtendArm(extension, m_armController);
-    retractArm = new RetractArm(extension, m_armController); 
+    extendArm = new ExtendArm(extension);
+    retractArm = new RetractArm(extension); 
 
     configureButtonBindings();
 
@@ -83,7 +83,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
+                true, false),
             m_robotDrive));
 
     configureDefaultCommands();
@@ -125,9 +125,11 @@ public class RobotContainer {
     Trigger rBumper = new JoystickButton(m_armController, XboxController.Button.kRightBumper.value);
 
     // ARM EXTENSTION
-    new JoystickButton(m_armController, Button.kA.value).whileTrue(extendArm);
+    // new JoystickButton(m_armController, Button.kA.value).whileTrue(extendArm);
+    new JoystickButton(m_armController, Button.kA.value).whileTrue(new ExtendArm(extension));
     // RETRACTION 
-    new JoystickButton(m_armController, Button.kB.value).whileTrue(retractArm);
+    // new JoystickButton(m_armController, Button.kB.value).whileTrue(retractArm);
+    new JoystickButton(m_armController, Button.kB.value).whileTrue(new RetractArm(extension));
 
     // Move the arm to 90 radians above horizontal when the 'A' button is pressed.
     aButton.onTrue(new moveArm(-90, m_robotArm));

@@ -5,6 +5,7 @@
 package frc.robot.Commands.Arm;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
@@ -17,6 +18,8 @@ public class moveArm extends PIDCommand {
   static final double kI = 0.001;
   static final double kD = 0.00;*/
   /** Creates a new arm. */
+  public static SimpleMotorFeedforward ArmFF = new SimpleMotorFeedforward(0.067086, 6.955, 0.1775);
+
   public moveArm(double PreferredAngle, ArmSubsystem sArm) {
     super(
         // The controller that the command will use
@@ -28,13 +31,14 @@ public class moveArm extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          sArm.ArmMove(output);
+          sArm.ArmMove(output + ArmFF.calculate(PreferredAngle));// maybe put FF in here
         });
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(sArm);
     // Configure additional PID options by calling `getController` here.
     this.getController().setTolerance(2);
     this.getController().setSetpoint(PreferredAngle);
+      
   }
 
   // Returns true when the command should end.

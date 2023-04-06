@@ -146,8 +146,8 @@ public final class Constants {
 
   
     
-    public static double kP = 5.2784;
-    public static double kD = 3.6271; 
+    public static double kP = 5.3399;
+    public static double kD = 3.7945; 
     public static double kMaxVelocityRadPerSecond = 0.75;
     public static double kMaxAccelerationRadPerSecSquared = 0.25;
     public static State kArmOffsetRadsads;
