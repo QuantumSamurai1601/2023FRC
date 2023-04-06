@@ -7,11 +7,9 @@ import frc.robot.subsystems.Arm.Jaw;
 public class ToggleJaw extends CommandBase{
     private final Jaw jaw; 
     private boolean isJawOpen = false; 
-    private XboxController m_armController; 
 
-    public ToggleJaw(Jaw jaw, XboxController m_armController) {
-        this.jaw = jaw; 
-        this.m_armController = m_armController; 
+    public ToggleJaw(Jaw jaw) {
+        this.jaw = jaw;
         addRequirements(jaw);
     }
 
