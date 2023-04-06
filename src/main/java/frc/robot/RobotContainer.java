@@ -13,8 +13,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.Arm.ToggleJaw;
 import frc.robot.Commands.Arm.moveArm;
@@ -58,7 +60,7 @@ public class RobotContainer {
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   // The Arm's joystick controller
-  XboxController m_armController = new XboxController(OIConstants.kArmControllerPort);
+  CommandXboxController m_armController = new CommandXboxController(OIConstants.kArmControllerPort);
   
 
   /**
@@ -67,14 +69,10 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     toggleJaw = new ToggleJaw(jaw, m_armController);
-    //toggleCompressor = new toggleCompressor(jaw, m_armController);
     extendArm = new ExtendArm(extension, m_armController);
     retractArm = new RetractArm(extension, m_armController); 
 
     configureButtonBindings();
-
-
-
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -109,18 +107,18 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-
     // JAW TOGGLE
-    // new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
-
-    // COMPRESSOR TOGGLE
-    //new JoystickButton(m_armController, Button.kX.value).onTrue(toggleCompressor);
+    new JoystickButton(m_armController, Button.kRightBumper.value).onTrue(toggleJaw); 
 
     // Command buttons
     Trigger aButton = new JoystickButton(m_armController, XboxController.Button.kA.value);
     Trigger bButton = new JoystickButton(m_armController, XboxController.Button.kB.value);
     Trigger xButton = new JoystickButton(m_armController, XboxController.Button.kX.value);
     Trigger yButton = new JoystickButton(m_armController, XboxController.Button.kY.value);
+
+    Trigger leftY = new JoystickButton(m_armController, XboxController.Axis.kLeftY.value);
+ 
+    // Trigger lBumper = new JoystickButton(m_armController, XboxController.Button.kLeftBumper.value);
     Trigger rBumper = new JoystickButton(m_armController, XboxController.Button.kRightBumper.value);
 
     // ARM EXTENSTION
@@ -138,7 +136,6 @@ public class RobotContainer {
   }
 
     /* 895 */
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

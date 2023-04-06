@@ -73,7 +73,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void ArmPoseForward() {
-    if (position < 90) {
+    if (position < -90) {
       position += .1;
     }
   }
@@ -84,7 +84,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void ArmPoseBackward() {
-    if (position > -0.35) {
+    if (position > 0.35) {
       position -= .1;
     }
   }
