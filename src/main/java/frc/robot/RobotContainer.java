@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -53,6 +54,7 @@ public class RobotContainer {
     private final ArmSubsystem m_robotArm = new ArmSubsystem(); 
     private final Jaw jaw = new Jaw(); 
     private final Extension extension = new Extension();
+    private final UsbCamera usbCamera1;
 
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
 
@@ -67,6 +69,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    usbCamera1 = CameraServer.startAutomaticCapture(); 
     configureButtonBindings();
 
     // Configure default commands
