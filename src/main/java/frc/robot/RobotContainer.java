@@ -121,17 +121,11 @@ public class RobotContainer {
 
   public void configureAutons() {
     autonChooser.addOption("Mobility Auton", new mobilityAuto(m_robotDrive));
-
+    autonChooser.addOption("default mobility auton", mobilityAuton());
     SmartDashboard.putData("Auto Go Brrrr", autonChooser);
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // Create config for trajectory
+  public Command mobilityAuton(){
     TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -170,6 +164,14 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, true));
+  }
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    return autonChooser.getSelected();
   }
 }
 //ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here ginger was here 
