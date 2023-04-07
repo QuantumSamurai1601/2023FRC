@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -15,12 +17,14 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.Arm.ToggleJaw;
 import frc.robot.Commands.Arm.manualMoveArm;
 import frc.robot.Commands.Arm.moveArm;
 import frc.robot.Commands.Arm.ArmExtension.ExtendArm;
 import frc.robot.Commands.Arm.ArmExtension.RetractArm;
+import frc.robot.Commands.Autons.mobilityAuto;
 import frc.robot.Commands.Drive.drive;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -33,8 +37,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-
 import java.util.List;
 
 
@@ -45,11 +47,14 @@ import java.util.List;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
   // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final ArmSubsystem m_robotArm = new ArmSubsystem(); 
     private final Jaw jaw = new Jaw(); 
     private final Extension extension = new Extension();
+
+    private static SendableChooser<Command> autonChooser = new SendableChooser<>();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -112,6 +117,12 @@ public class RobotContainer {
     // ARM PRESETS
     new JoystickButton(m_armController, Button.kY.value).onTrue(new moveArm(-90, m_robotArm));
     new JoystickButton(m_armController, Button.kX.value).onTrue(new moveArm(0, m_robotArm));
+  }
+
+  public void configureAutons() {
+    autonChooser.addOption("Mobility Auton", new mobilityAuto(m_robotDrive));
+
+    SmartDashboard.putData("Auto Go Brrrr", autonChooser);
   }
 
   /**

@@ -69,6 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
   }
 
+  public AHRS getGyro(){
+    return m_gyro;
+  }
+  
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
