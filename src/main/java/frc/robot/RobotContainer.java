@@ -38,6 +38,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+
 import java.util.List;
 
 
@@ -108,6 +110,15 @@ public class RobotContainer {
     //         () -> m_robotDrive.setX(),
     //         m_robotDrive));
 
+    new JoystickButton(m_driverController, Button.kLeftStick.value).whileTrue(
+      new RunCommand(
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(m_driverController.getLeftY()/2, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX()/2, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX()/2, OIConstants.kDriveDeadband),
+                true, true),
+            m_robotDrive)
+    );
     // JAW TOGGLE
     new JoystickButton(m_armController, Button.kA.value).onTrue(new ToggleJaw(jaw)); 
 
@@ -118,8 +129,11 @@ public class RobotContainer {
     new JoystickButton(m_armController, Button.kRightBumper.value).whileTrue(new ExtendArm(extension, m_robotArm));
 
     // ARM PRESETS
-    new JoystickButton(m_armController, Button.kY.value).onTrue(new moveArm(-90, m_robotArm));
-    new JoystickButton(m_armController, Button.kX.value).onTrue(new moveArm(0, m_robotArm));
+    // new JoystickButton(m_armController, Button.kY.value).onTrue(new moveArm(-85, m_robotArm));
+    // new JoystickButton(m_armController, Button.kX.value).onTrue(new moveArm(0, m_robotArm));
+
+    new POVButton(m_armController, 0).onTrue(new moveArm(-85, m_robotArm));
+    // new POVButton(m_armController, 180).onTrue(new moveArm(-40, m_robotArm));
   }
 
   public void configureAutons() {

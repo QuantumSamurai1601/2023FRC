@@ -36,7 +36,7 @@ public class moveArm extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(sArm);
     // Configure additional PID options by calling `getController` here.
-    this.getController().setTolerance(2);
+    this.getController().setTolerance(1);
     this.getController().setSetpoint(PreferredAngle);
       
   }
