@@ -8,11 +8,13 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -54,6 +56,9 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
+  //kinematics
+  private final SwerveDriveKinematics kinematics;
+
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
@@ -65,8 +70,23 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
+  private final double width = Units.inchesToMeters(29.5);
+  private final double length = Units.inchesToMeters(29.5); // check units
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    kinematics = new SwerveDriveKinematics(
+      // front left offset  (as translation2d) note: if this ever doesn't work, the order might be wrong 
+      //honestly I'd be suprized if this worked
+      // front right offset
+      // rear left offset
+      // rear right offset
+      new Translation2d(width * +0.5, length * +0.5),
+      new Translation2d(width * +0.5, length * -0.5),
+      new Translation2d(width * -0.5, length * +0.5),
+      new Translation2d(width * -0.5, length * -0.5)
+    );
+    
   }
 
   public AHRS getGyro(){
@@ -192,6 +212,22 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+  // Chassis speeds takes in x m/s, y m/s, and rotation angle(not m/s)
+  public void setChassisSpeeds(ChassisSpeeds robotSpeed){
+    setModuleStates(kinematics.toSwerveModuleStates(robotSpeed));
+    /*
+     * we need a field SwerveDriveKinematics
+     * here's the problem: 
+     * - it takes in Module offsets
+     * - we don't know the module offsets
+     * - I'm going to assume it's the length +- 0.5
+     * 
+     */
+  }
+  public void stop(){ // chassisspeeds will be 0 now
+    setChassisSpeeds(new ChassisSpeeds());
   }
 
   /**

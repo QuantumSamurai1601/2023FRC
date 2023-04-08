@@ -25,7 +25,8 @@ import frc.robot.Commands.Arm.manualMoveArm;
 import frc.robot.Commands.Arm.moveArm;
 import frc.robot.Commands.Arm.ArmExtension.ExtendArm;
 import frc.robot.Commands.Arm.ArmExtension.RetractArm;
-import frc.robot.Commands.Autons.mobilityAuto;
+import frc.robot.Commands.Autons.mobilityAuton;
+import frc.robot.Commands.Autons.onePieceAutonMid;
 import frc.robot.Commands.Drive.drive;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -87,6 +88,7 @@ public class RobotContainer {
             m_robotDrive));
 
     configureDefaultCommands();
+    configureAutons();
   }
 
   private void configureDefaultCommands() {
@@ -137,9 +139,11 @@ public class RobotContainer {
   }
 
   public void configureAutons() {
-    autonChooser.addOption("Mobility Auton", new mobilityAuto(m_robotDrive));
+    autonChooser.addOption("Mobility Auton", new mobilityAuton(m_robotDrive));
     autonChooser.addOption("default mobility auton", mobilityAuton());
-    SmartDashboard.putData("Auto Go Brrrr", autonChooser);
+    autonChooser.addOption("One Piece Auton", new onePieceAutonMid(m_robotArm, extension, m_robotDrive, jaw));
+    autonChooser.setDefaultOption("default", mobilityAuton());
+    SmartDashboard.putData("Robot/Auto Go Brrrr", autonChooser);
   }
 
   public Command mobilityAuton(){
